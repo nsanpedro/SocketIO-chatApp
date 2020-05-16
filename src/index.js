@@ -16,10 +16,15 @@ io.on('connection', (socket) => {
     console.log('New Connection detected');
 
     socket.emit('message', 'welcome');
+    socket.broadcast.emit('message', 'New user joined the room');
 
     socket.on('sendMessage', (message) => {
         io.emit('message', message);
     });
+
+    socket.on('disconnect', () => {
+        io.emit('message', 'Client has left room');
+    })
 });
 
 server.listen(PORT, () => {
